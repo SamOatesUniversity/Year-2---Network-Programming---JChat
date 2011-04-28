@@ -39,14 +39,19 @@ public class JUDPLoop extends Thread {
                 ip = udppacket.getAddress();
                 port = udppacket.getPort();
 
+                Point temp_avatar_position = new Point(-1, -1);
+
                 try {
                     String message = new String(udppacket.getData()).trim();
                     int comma = message.indexOf(',');
                     if( comma >= 0 )
                     {
-                        avatar_position.x = Integer.parseInt(message.substring(0, comma));
-                        avatar_position.y = Integer.parseInt(message.substring(comma + 1));
+                        temp_avatar_position.x = Integer.parseInt(message.substring(0, comma));
+                        temp_avatar_position.y = Integer.parseInt(message.substring(comma + 1));
                     }
+
+                    if( temp_avatar_position.x >= 0 && temp_avatar_position.y >= 0)
+                        avatar_position = temp_avatar_position;
 
                     //System.out.println("Udp Recieved Message : " + message);
                 } catch( NumberFormatException e ) {

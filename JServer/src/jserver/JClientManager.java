@@ -91,7 +91,7 @@ public class JClientManager extends Thread {
                 for( int i = 0; i < client.size(); i++ ) {
                     JClient c = client.get(i);
                     Point p = c.getAvatar();
-                    udpSendOthers( c, p );
+                    udpSendOthers( i, p );
                 }
 
             }
@@ -133,11 +133,11 @@ public class JClientManager extends Thread {
         sender.udpSend( id, pos );
     }
 
-    public void udpSendOthers( JClient sender, Point pos ) {
+    public void udpSendOthers( int id, Point pos ) {
         for( int i = 0; i < client.size(); i++ ) {
-            JClient c = client.get(i);
-            if( c != sender ) {
-                udpSend( c, i, pos );
+            if( i != id ) {
+                System.out.println("i = " + i + " : id = " + id );
+                udpSend( client.get(i), id, pos );
             }
         }
     }
