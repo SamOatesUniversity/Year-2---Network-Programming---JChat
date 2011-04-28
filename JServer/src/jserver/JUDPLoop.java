@@ -27,6 +27,7 @@ public class JUDPLoop extends Thread {
         this.udpsocket = udpsocket;
         this.avatar_position = new Point(0, 0);
         this.port = 0;
+        this.ip = null;
     }
 
     @Override
@@ -41,14 +42,16 @@ public class JUDPLoop extends Thread {
                 try {
                     String message = new String(udppacket.getData()).trim();
                     int comma = message.indexOf(',');
-                    avatar_position.x = Integer.parseInt(message.substring(0, comma));
-                    avatar_position.y = Integer.parseInt(message.substring(comma + 1));
+                    if( comma >= 0 )
+                    {
+                        avatar_position.x = Integer.parseInt(message.substring(0, comma));
+                        avatar_position.y = Integer.parseInt(message.substring(comma + 1));
+                    }
 
-                    System.out.println("Udp Recieved Message : " + message);
+                    //System.out.println("Udp Recieved Message : " + message);
                 } catch( NumberFormatException e ) {
                     
                 }
-                //System.out.println(avatar_position.toString());
             }
         }
 
@@ -61,7 +64,7 @@ public class JUDPLoop extends Thread {
     }
 
     public void send(Point pos) {
-        
+
         if( port != 0 && ip != null ) {
 
             try {
@@ -73,6 +76,8 @@ public class JUDPLoop extends Thread {
                 udppacket = new DatagramPacket(mb, mb.length, ip, port);
 
                 udpsocket.send(udppacket);
+
+                System.out.println("Server sent UDP packet : " + message);
 
             } catch ( NullPointerException e ) {
                 System.out.println("NULL POINTER --> " + e);

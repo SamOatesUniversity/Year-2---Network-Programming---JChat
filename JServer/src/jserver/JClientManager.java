@@ -89,6 +89,7 @@ public class JClientManager extends Thread {
 
                 //udp stuff//
                 for( int i = 0; i < client.size(); i++ ) {
+                    
                     JClient c = client.get(i);
                     Point p = c.getAvatar();
                     udpSendOthers( c, p );
