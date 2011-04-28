@@ -25,12 +25,17 @@ public class JChatUDP extends Thread {
     private int                 avatarid;
     private JChatForm           form;
 
+    private JChatUDPRecieve     recieve_loop;
+
     public JChatUDP( DatagramSocket socket, JChatForm form ) {
         s = socket;
         running = true;
         this.form = form;
         avatar = new Point( 0, 0 );
         avatarid = form.addAvatar(avatar);
+
+        recieve_loop = new JChatUDPRecieve(s, form);
+        recieve_loop.start();
     }
 
     @Override
@@ -53,7 +58,7 @@ public class JChatUDP extends Thread {
 
             s.send(p);
 
-            System.out.println("Udp Packeet Sent : " + message );
+            //System.out.println("Udp Packeet Sent : " + message );
 
         } catch (SocketException e) {
             System.out.println("COMMUNICATION WITH SERVER LOST --> " + e);
