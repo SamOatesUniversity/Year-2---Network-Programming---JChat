@@ -32,8 +32,6 @@ public class JUDPLoop extends Thread {
     @Override
     public void run() {
 
-        //UDP IS FUCKED//
-
         while (running) {
             waitForClientMessage();
             if (running) {
@@ -41,10 +39,12 @@ public class JUDPLoop extends Thread {
                 port = udppacket.getPort();
 
                 try {
-                String message = new String(udppacket.getData()).trim();
-                int comma = message.indexOf(',');
-                avatar_position.x = Integer.parseInt(message.substring(0, comma));
-                avatar_position.y = Integer.parseInt(message.substring(comma + 1));
+                    String message = new String(udppacket.getData()).trim();
+                    int comma = message.indexOf(',');
+                    avatar_position.x = Integer.parseInt(message.substring(0, comma));
+                    avatar_position.y = Integer.parseInt(message.substring(comma + 1));
+
+                    System.out.println("Udp Recieved Message : " + message);
                 } catch( NumberFormatException e ) {
                     
                 }
