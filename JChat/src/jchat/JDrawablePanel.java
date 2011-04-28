@@ -45,7 +45,7 @@ public class JDrawablePanel extends javax.swing.JPanel {
 
         // draw all people
         for( int i = 0; i < avatar.size(); i++ ) {
-            for( int s = 20; s > 0; s-- ) {
+            for( int s = 20; s >= 20; s-- ) {
                 g.drawRect(avatar.get(i).x, avatar.get(i).y, s, s);
             }
         }

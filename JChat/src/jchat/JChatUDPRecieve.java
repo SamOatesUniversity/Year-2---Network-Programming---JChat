@@ -94,10 +94,10 @@ public class JChatUDPRecieve extends Thread {
 
                 }
 
-                //System.out.println("ID : " + id + " - Position : " + avatar_position.toString() );
-
-                if( avatar_position.x >= 0 && avatar_position.y >= 0 && id >= 0 )
+                if( avatar_position.x >= 0 && avatar_position.y >= 0 && id >= 0 && id <= client.size() )
                 {
+                    System.out.println("ID : " + id + " - Position : " + avatar_position.toString() );
+                    
                     boolean new_client = true;
                     for( int i = 0; i < client.size(); i++ )
                     {
@@ -108,7 +108,7 @@ public class JChatUDPRecieve extends Thread {
                         }
                     }
 
-                    if( new_client && id <= client.size() )
+                    if( new_client )
                     {
                         int avatar_id = form.addAvatar(avatar_position);
                         JChatUDPClient new_udpclient = new JChatUDPClient(id, avatar_id);
