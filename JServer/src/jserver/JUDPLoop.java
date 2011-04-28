@@ -63,13 +63,13 @@ public class JUDPLoop extends Thread {
         return this.avatar_position;
     }
 
-    public void send(Point pos) {
+    public void send(int id, Point pos) {
 
         if( port != 0 && ip != null ) {
 
             try {
 
-                String message = pos.x + "," + pos.y;
+                String message = id + "," + pos.x + "," + pos.y;
 
                 byte[] mb = message.getBytes();
 

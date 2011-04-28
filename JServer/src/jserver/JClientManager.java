@@ -130,15 +130,15 @@ public class JClientManager extends Thread {
         }
     }
 
-    public void udpSend( JClient sender, Point pos ) {
-        sender.udpSend( pos );
+    public void udpSend( JClient sender, int id, Point pos ) {
+        sender.udpSend( id, pos );
     }
 
     public void udpSendOthers( JClient sender, Point pos ) {
         for( int i = 0; i < client.size(); i++ ) {
             JClient c = client.get(i);
             if( c != sender ) {
-                udpSend( c, pos );
+                udpSend( c, i, pos );
             }
         }
     }
