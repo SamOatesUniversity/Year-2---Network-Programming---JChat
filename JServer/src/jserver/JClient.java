@@ -53,8 +53,8 @@ public class JClient extends Thread {
         return udp.getAvatar();
     }
 
-    public void udpSend( Point p ) {
-        udp.send( p );
+    public void udpSend( int id, Point p ) {
+        udp.send( id, p );
     }
 
     public void sendMessage( String message ) throws IOException {
