@@ -67,8 +67,8 @@ public class JChatUDPRecieve extends Thread {
                 s.receive(p); //blocking
 
                 String message = new String(p.getData()).trim();
-                Point avatar_position = new Point();
-                int id = 0;
+                Point avatar_position = new Point(-1, -1);
+                int id = -1;
                 //System.out.println("Recieved : " + message );
 
                 //if avatar for ip doesnt exist, make new avatar.
@@ -96,7 +96,7 @@ public class JChatUDPRecieve extends Thread {
 
                 //System.out.println("ID : " + id + " - Position : " + avatar_position.toString() );
 
-                if( avatar_position.x > 0 && avatar_position.y > 0 )
+                if( avatar_position.x >= 0 && avatar_position.y >= 0 && id >= 0 )
                 {
                     boolean new_client = true;
                     for( int i = 0; i < client.size(); i++ )
