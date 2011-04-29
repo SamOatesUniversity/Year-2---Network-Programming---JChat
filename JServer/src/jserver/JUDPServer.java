@@ -21,6 +21,7 @@ public class JUDPServer extends Thread {
         public String           ip;
         public int              port;
         public String           latest_message;
+        public int              time;
     }
 
     private ArrayList<JUDPClient>       client;
@@ -60,28 +61,35 @@ public class JUDPServer extends Thread {
         try {
             socket.receive(packet);
         } catch ( SocketException ex ) {
-            
+            has_new_message = false;
         } catch (IOException ex) {
             Logger.getLogger(JUDPServer.class.getName()).log(Level.SEVERE, null, ex);
+            has_new_message = false;
         }
 
         if( has_new_message ) {
-            boolean is_new_client = true;
             String message = new String(packet.getData()).trim();
+            boolean is_new_client = true;
             InetAddress ip = packet.getAddress();
             int port = packet.getPort();
             int from = -1;
             String ip_string = ip.getHostAddress();
 
             for( int i = 0; i < client.size(); i++ ) {
+                client.get(i).time = client.get(i).time + 1;
                 if( ip_string.equalsIgnoreCase(client.get(i).ip) &&
                     client.get(i).port == port )
                 {
                     client.get(i).latest_message = message;
+                    client.get(i).time = 0;
                     is_new_client = false;
                     from = i;
+                }
 
-                    //System.out.println("## Exisiting Client : " + message + " ##");
+                if( client.get(i).time > 100000 ) {
+                    //no udp message in 100,000 cycles...
+                    //presume dead...
+                    client.get(i).latest_message = "remove," + i;
                 }
             }
 
@@ -89,12 +97,21 @@ public class JUDPServer extends Thread {
                 JUDPClient new_client = new JUDPClient();
                 new_client.ip = ip_string;
                 new_client.port = port;
+                new_client.time = 0;
                 client.add(new_client);
                 from = client.size() - 1;
-                //System.out.println("## New Client : " + message + " ##");
             }
 
             SendMessageToOthers( from );
+
+            for( int i = 0; i < client.size(); i++ )
+            {
+                if( client.get(i).time > 40000 ) {
+                    //no udp message in 40000 cycles...
+                    client.get(i).latest_message = "remove";
+                    SendMessageToOthers( i );
+                }
+            }
         }
     }
 
@@ -119,6 +136,14 @@ public class JUDPServer extends Thread {
                     }
 
                 } catch (NullPointerException ex) {
+                    
+                }
+
+                try {
+                    if( client.get(sender).latest_message.contains("remove")) {
+                        client.remove(sender);
+                    }
+                } catch( NullPointerException ex ) {
                     
                 }
 

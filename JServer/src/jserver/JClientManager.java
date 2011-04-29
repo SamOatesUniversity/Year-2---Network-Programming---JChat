@@ -14,6 +14,15 @@ public class JClientManager extends Thread {
     private boolean             running;
     private JServerForm         form;
 
+    /**
+     * Initialise a new client manager.
+     * This stores and controls all the TCP clients.
+     * and handles sending messages to other clients.
+    @param  form  a JServerForm used to add messages to the server GUI.
+     *
+    @return      none.
+     *
+     */
     public JClientManager( JServerForm form ) {
         this.client = new ArrayList<JClient>();
         this.running = true;
@@ -96,16 +105,42 @@ public class JClientManager extends Thread {
 
     }
 
+    /**
+     * sends a message to an individual client.
+    @param  c  the JClient the message should be sent too.
+     *
+    @param  message  a String containing the message to send.
+     *
+    @return      none.
+     *
+     */
     public void sendMessage( JClient c, String message ) {
         c.sendMessage(message);
     }
 
+    /**
+     * sends a message to every client on the server.
+    @param  message  a String containing the message to send.
+     *
+    @return      none.
+     *
+     */
     public void sendMessageAll( String message ) {
         for( int i = 0; i < client.size(); i++ ) {
             sendMessage( client.get(i), message );
         }
     }
 
+    /**
+     * sends a message to every client except the person
+     * who sent the original message on the server.
+    @param  sender  the JClient that sent the original message.
+     *
+    @param  message  a String containing the message to send.
+     *
+    @return      none.
+     *
+     */
     public void sendMessageOthers( JClient sender, String message ) {
         for( int i = 0; i < client.size(); i++ ) {
             JClient c = client.get(i);
@@ -115,6 +150,17 @@ public class JClientManager extends Thread {
         }
     }
 
+    /**
+     * adds a client to the client manager. and sends a message
+     * to all other clients stating there connection.
+     * Also if a client already in the manager has the same name as
+     * the new client, the new client is renamed with the time as a
+     * prefix.
+    @param  newClient  a new JClient.
+     *
+    @return      none.
+     *
+     */
     public void addClient( JClient newClient ) {
         for( int i = 0; i < client.size(); i++ ) {
             JClient c = client.get(i);
@@ -128,6 +174,16 @@ public class JClientManager extends Thread {
         System.out.println( "#### Client added to client manager ####");
     }
 
+    /**
+     * removes a client from the client loop. and sends a message
+     * to all other clients stating which client has left.
+    @param  sender  the JClient that sent the original message.
+     *
+    @param  message  a String containing the message to send.
+     *
+    @return      none.
+     *
+     */
     public void removeClient( final JClient deadClient ) {
         sendMessageOthers( deadClient, "## " + deadClient.getUsername() + " has left the chat ##" );
         form.removeClient(deadClient.getUsername());
