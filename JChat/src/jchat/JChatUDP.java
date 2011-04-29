@@ -58,8 +58,6 @@ public class JChatUDP extends Thread {
 
             s.send(p);
 
-            //System.out.println("Udp Packeet Sent : " + message );
-
         } catch (SocketException e) {
             System.out.println("COMMUNICATION WITH SERVER LOST --> " + e);
             e.printStackTrace();

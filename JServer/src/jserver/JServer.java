@@ -6,6 +6,10 @@ package jserver;
  */
 public class JServer {
 
+    private JServerForm form;
+    private JTCPServer tcpServer;
+    private JUDPServer udpServer;
+
     public static void main(String[] args) {
 
         JServerForm mainForm = new JServerForm();
@@ -17,9 +21,11 @@ public class JServer {
 
     public JServer( JServerForm form )
     {
-        JClientManager clientManager = new JClientManager( form );
-        JTCPServer tcpServer = new JTCPServer( 5598, clientManager );
-        tcpServer.start();        
+        this.form = form;
+        this.udpServer = new JUDPServer( 5598, form );
+        udpServer.start();
+        this.tcpServer = new JTCPServer( 5598, form );
+        tcpServer.run();
     }
 
 }

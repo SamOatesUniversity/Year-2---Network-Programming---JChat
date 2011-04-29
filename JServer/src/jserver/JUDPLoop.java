@@ -53,7 +53,8 @@ public class JUDPLoop extends Thread {
                     if( temp_avatar_position.x >= 0 && temp_avatar_position.y >= 0)
                         avatar_position = temp_avatar_position;
 
-                    //System.out.println("Udp Recieved Message : " + message);
+                    //System.out.println(port + ", " + avatar_position);
+
                 } catch( NumberFormatException e ) {
                     
                 }

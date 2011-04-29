@@ -1,12 +1,9 @@
 package jserver;
 
-import java.awt.Point;
 import java.io.*;
-import java.net.DatagramSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -15,27 +12,17 @@ import java.util.logging.Logger;
 public class JClient extends Thread {
 
     private String              name;
-    private Socket              tcpsocket;
-    private boolean             running;
+    private Socket              socket;
+    private boolean             running, hasMessage;
     private ArrayList<String>   message;
-    private JUDPLoop            udp;
 
-
-    public JClient( Socket tcpsocket, DatagramSocket udpsocket ) {
+    public JClient( Socket socket ) {
         this.running = true;
         this.message = new ArrayList<String>();
-        this.tcpsocket = tcpsocket;
-
-        udp = new JUDPLoop( udpsocket );
-        udp.start();
-
+        this.socket = socket;
         this.name = recieveMessage();
         System.out.println("#### "+ this.name + " Has Joined the Chat ####");
-        try {
-            sendMessage("Hello and welcome");
-        } catch (IOException ex) {
-            Logger.getLogger(JClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        sendMessage( "Hello and welcome" );
     }
 
     @Override
@@ -46,22 +33,18 @@ public class JClient extends Thread {
                 message.add(newMessage);
             }
         }
-        udp.kill();
     }
 
-    public Point getAvatar() {
-        return udp.getAvatar();
-    }
-
-    public void udpSend( int id, Point p ) {
-        udp.send( id, p );
-    }
-
-    public void sendMessage( String message ) throws IOException {
+    public void sendMessage( String message ) {
         if( running ) {
-            BufferedWriter clientOutStream = new BufferedWriter(new OutputStreamWriter(tcpsocket.getOutputStream()));
-            clientOutStream.write(message + "\n");
-            clientOutStream.flush();
+            try {
+                BufferedWriter clientOutStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                clientOutStream.write(message + "\n");
+                clientOutStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+                running = false;
+            }
         }
     }
 
@@ -69,9 +52,13 @@ public class JClient extends Thread {
         String message = "";
 
         try {
-            BufferedReader serverInStream = new BufferedReader(new InputStreamReader(tcpsocket.getInputStream()));
+            BufferedReader serverInStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             message = serverInStream.readLine();
+        } catch (SocketException e) {
+            running = false;
+            message = "";
         } catch (IOException e) {
+            e.printStackTrace();
             running = false;
             message = "";
         }
@@ -105,4 +92,9 @@ public class JClient extends Thread {
     public void setUsername( String name ) {
         this.name = name;
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
 }
