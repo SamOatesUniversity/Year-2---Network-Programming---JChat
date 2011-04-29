@@ -34,6 +34,7 @@ public class JDrawablePanel extends javax.swing.JPanel {
 
     public void removeAvatar( int id ) {
         avatar.remove(id);
+        this.repaint();
     }
 
     public Point getPos( int id ) {

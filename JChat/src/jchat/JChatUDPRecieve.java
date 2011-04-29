@@ -51,8 +51,6 @@ public class JChatUDPRecieve extends Thread {
         while( running )
         {
             RecieveServerMessage();
-
-
         }
     }
 
@@ -67,50 +65,79 @@ public class JChatUDPRecieve extends Thread {
                 s.receive(p); //blocking
 
                 String message = new String(p.getData()).trim();
-                Point avatar_position = new Point(-1, -1);
-                int id = -1;
-                
-                //if avatar for ip doesnt exist, make new avatar.
-                //else update previous avatar location.
 
-                try {
-                    int comma = message.indexOf(',');
-                    String position = "";
-                    if( comma >= 0 )
-                    {
-                        id = Integer.parseInt(message.substring(0, comma));
-                        position = message.substring(comma + 1);
+                if( !message.contains("remove") )
+                {
+                    Point avatar_position = new Point(-1, -1);
+                    int id = -1;
+
+                    //if avatar for ip doesnt exist, make new avatar.
+                    //else update previous avatar location.
+
+                    try {
+                        int comma = message.indexOf(',');
+                        String position = "";
+                        if( comma >= 0 )
+                        {
+                            id = Integer.parseInt(message.substring(0, comma));
+                            position = message.substring(comma + 1);
+                        }
+                        //System.out.println( position );
+                        comma = position.indexOf(',');
+                        if( comma >= 0 )
+                        {
+                            avatar_position.x = Integer.parseInt(position.substring(0, comma));
+                            avatar_position.y = Integer.parseInt(position.substring(comma + 1));
+                        }
+
+                    } catch( NumberFormatException e ) {
+
                     }
-                    //System.out.println( position );
-                    comma = position.indexOf(',');
-                    if( comma >= 0 )
+
+                    if( avatar_position.x >= 0 && avatar_position.y >= 0 && id >= 0 )
                     {
-                        avatar_position.x = Integer.parseInt(position.substring(0, comma));
-                        avatar_position.y = Integer.parseInt(position.substring(comma + 1));
+                        boolean new_client = true;
+                        for( int i = 0; i < client.size(); i++ )
+                        {
+                            if( client.get(i).id == id )
+                            {
+                                new_client = false;
+                                form.updateAvatar(client.get(i).avatar_id, avatar_position);
+                            }
+                        }
+
+                        if( new_client )
+                        {
+                            int avatar_id = form.addAvatar(avatar_position);
+                            JChatUDPClient new_udpclient = new JChatUDPClient(id, avatar_id);
+                            client.add(new_udpclient);
+                        }
                     }
-
-                } catch( NumberFormatException e ) {
-
                 }
+                else
+                {
+                    //Remove client
+                    int id = -1;
+                    try {
+                        int comma = message.indexOf(',');
+                        
+                        if( comma >= 0 )
+                        {
+                            id = Integer.parseInt(message.substring(0, comma));
+                        }
+                    } catch( NumberFormatException e ) {
 
-                if( avatar_position.x >= 0 && avatar_position.y >= 0 && id >= 0 )
-                {                 
-                    boolean new_client = true;
+                    }
+                    
                     for( int i = 0; i < client.size(); i++ )
                     {
                         if( client.get(i).id == id )
                         {
-                            new_client = false;
-                            form.updateAvatar(client.get(i).avatar_id, avatar_position);
+                            form.removeAvatar( client.get(i).avatar_id );
+                            client.remove(i);
                         }
                     }
 
-                    if( new_client )
-                    {
-                        int avatar_id = form.addAvatar(avatar_position);
-                        JChatUDPClient new_udpclient = new JChatUDPClient(id, avatar_id);
-                        client.add(new_udpclient);
-                    }
                 }
 
             } catch (SocketTimeoutException e) {

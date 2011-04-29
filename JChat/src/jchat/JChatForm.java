@@ -319,6 +319,10 @@ public class JChatForm extends javax.swing.JFrame {
     public void updateAvatar( int id, Point pos ) {
         ((JDrawablePanel)jPanel_Drawable).updateAvatar(id, pos);
     }
+
+    public void removeAvatar( int id ) {
+        ((JDrawablePanel)jPanel_Drawable).removeAvatar( id );
+    }
     
     public Point getAvatar( int id ) {
         return ((JDrawablePanel)jPanel_Drawable).getPos( id );
