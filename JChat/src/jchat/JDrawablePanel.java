@@ -32,6 +32,10 @@ public class JDrawablePanel extends javax.swing.JPanel {
         this.repaint();
     }
 
+    public void removeAvatar( int id ) {
+        avatar.remove(id);
+    }
+
     public Point getPos( int id ) {
         return avatar.get(id);
     }

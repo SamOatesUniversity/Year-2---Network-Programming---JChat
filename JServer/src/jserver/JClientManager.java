@@ -1,7 +1,5 @@
 package jserver;
 
-import java.awt.Point;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,14 +84,6 @@ public class JClientManager extends Thread {
                     }
                 }
 
-
-                //udp stuff//
-                for( int i = 0; i < client.size(); i++ ) {
-                    JClient c = client.get(i);
-                    Point p = c.getAvatar();
-                    udpSendOthers( i, p );
-                }
-
             }
             
             try {
@@ -107,11 +97,7 @@ public class JClientManager extends Thread {
     }
 
     public void sendMessage( JClient c, String message ) {
-        try {
-            c.sendMessage(message);
-        } catch (IOException ex) {
-            Logger.getLogger(JClientManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        c.sendMessage(message);
     }
 
     public void sendMessageAll( String message ) {
@@ -125,19 +111,6 @@ public class JClientManager extends Thread {
             JClient c = client.get(i);
             if( c != sender ) {
                 sendMessage( c, message );
-            }
-        }
-    }
-
-    public void udpSend( JClient sender, int id, Point pos ) {
-        sender.udpSend( id, pos );
-    }
-
-    public void udpSendOthers( int id, Point pos ) {
-        for( int i = 0; i < client.size(); i++ ) {
-            if( i != id ) {
-                System.out.println("i = " + i + " : id = " + id );
-                udpSend( client.get(i), id, pos );
             }
         }
     }
