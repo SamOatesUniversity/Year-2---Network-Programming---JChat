@@ -7,8 +7,10 @@ import javax.swing.ListModel;
 
 /**
  *
- * @author SAM
+ * @author j9060283
  */
+ 
+ 
 public class JServerForm extends javax.swing.JFrame {
 
     public JServerForm() {
