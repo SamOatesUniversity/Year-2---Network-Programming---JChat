@@ -68,6 +68,17 @@ public class JChatUDP extends Thread {
     }
 
 	/**
+	*Removes and a client from the udp list
+        * @param id the id to remove
+	*
+	@return none.
+	*/
+
+    public void removeClient( int id ) {
+        recieve_loop.removeClient(id);
+    }
+
+	/**
 	*Sends the avatars position to the server in the format x,y
 	*
 	@return none.
