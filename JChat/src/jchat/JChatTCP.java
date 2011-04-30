@@ -46,7 +46,7 @@ public class JChatTCP extends Thread {
     }
 /**
 	*Main run loop within the thread. Calls SendName function
-	*then while the thread is running it recieves the message
+	*then while the thread is running it receives the message
 	*and adds them to the form. When the thread stops running it closes the TCP connections.
 	*
 	@return none.
@@ -61,6 +61,17 @@ public class JChatTCP extends Thread {
 
             String newMessage = recieveMessage();
             System.out.println(newMessage);
+
+            //id:## NAME has left the chat ##//
+            if( newMessage.contains(" has left the chat ##")) {
+                int pos = newMessage.indexOf(":##");
+                String id = newMessage.substring(0, pos);
+                System.out.println(id + " HAS LEFT!");
+
+                newMessage = newMessage.substring(pos+1);
+
+                udp.removeClient( Integer.parseInt(id) );
+            }
 
             form.addMessage(newMessage);
 

@@ -45,7 +45,7 @@ public class JClientManager extends Thread {
                 for( int i = 0; i < client.size(); i++ ) {
                     JClient c = client.get(i);
                     if( !c.isRunning() ) {
-                        removeClient( c );
+                        removeClient( i, c );
                     }
                 }
 
@@ -56,7 +56,7 @@ public class JClientManager extends Thread {
                         JClient c = client.get(i);
                         if( cw.equals(c.getUsername()) ) {
                             sendMessage( c, "## You have been kicked by the server ##" );
-                            removeClient( c );
+                            removeClient( i, c );
                         } else {
                             sendMessage( c, "## " + cw + " has been kicked by the server ##" );
                         }
@@ -189,8 +189,8 @@ public class JClientManager extends Thread {
     @return      none.
      *
      */
-    public void removeClient( final JClient deadClient ) {
-        sendMessageOthers( deadClient, "## " + deadClient.getUsername() + " has left the chat ##" );
+    public void removeClient( final int deadClientid, final JClient deadClient ) {
+        sendMessageOthers( deadClient, deadClientid + ":## " + deadClient.getUsername() + " has left the chat ##" );
         form.removeClient(deadClient.getUsername());
         client.remove(deadClient);
         System.out.println( "#### Client removed from client manager ####");
