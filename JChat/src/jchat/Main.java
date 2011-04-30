@@ -7,10 +7,20 @@ package jchat;
 
 /**
  *
- * @author Sam
+ * @author J9060283
  */
+ 
+ /**
+*The Main entry point of the Client
+*
+*/
 public class Main {
-    
+    /**
+	*Main entry point of client, creates TCP and the form
+	@param args a list of startup arguments
+	*
+	@return none.
+	*/
     public static void main(String[] args) {
         
         JChatTCP tcp = new JChatTCP( );

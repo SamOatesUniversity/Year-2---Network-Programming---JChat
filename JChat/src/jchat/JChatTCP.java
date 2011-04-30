@@ -19,6 +19,11 @@ import java.util.logging.Logger;
  *
  * @author Sam
  */
+ 
+/**
+*The TCP Thread
+*
+*/
 public class JChatTCP extends Thread {
 
     private int             port;
@@ -30,10 +35,23 @@ public class JChatTCP extends Thread {
     private JChatUDP        udp;
     private DatagramSocket  udpsocket;
 
+	/**
+	*Constructor of the TCP thread
+	*
+	@return none.
+	*/
+	
     public JChatTCP( ) {
         running = true;
     }
-
+/**
+	*Main run loop within the thread. Calls SendName function
+	*then while the thread is running it recieves the message
+	*and adds them to the form. When the thread stops running it closes the TCP connections.
+	*
+	@return none.
+	*/
+	
     @Override
     public void run() {
         
@@ -57,6 +75,17 @@ public class JChatTCP extends Thread {
 
     }
 
+	/**
+	*Connects to the TCP socket of the server
+	@param name clients name
+	*
+	@param ip ip address of the server
+	*
+	@param port port of the server
+	*
+	@return none.
+	*/
+	
     public void connect( String name, String ip, int port ) {
         try {
             this.name = name;
@@ -78,6 +107,12 @@ public class JChatTCP extends Thread {
         }
     }
 
+	/**
+	*Initiates the client socket for UDP connections to be recieved upon
+	*
+	@return boolean true if the socket has been created, false otherwise
+	*/
+	
     public boolean initClientUDPDatagramSocket() {
 
         try {
@@ -102,6 +137,12 @@ public class JChatTCP extends Thread {
         return true;
     }
 
+	/**
+	*Creates the TCP socket
+	*
+	@return boolean true if the socket was created, false otherwise
+	*/
+	
     private boolean createSocket() {
         try {
                 socket = new Socket(ip, port);
@@ -126,6 +167,12 @@ public class JChatTCP extends Thread {
         return true;
     }
 
+	/**
+	*Closes the TCP connection
+	*
+	@return none.
+	*/
+	
     private void closeConnection() {
         try {
             socket.close();
@@ -135,6 +182,13 @@ public class JChatTCP extends Thread {
         }
     }
 
+	/**
+	*Sends TCP message to the server
+	@param message A string containing the message
+	*
+	@return none.
+	*/
+	
     public void sendMessage( String Message ) {
         if( running ) {
             try {
@@ -148,6 +202,12 @@ public class JChatTCP extends Thread {
         }
     }
 
+	/**
+	*Sends the name to the server
+	*
+	@return none.
+	*/
+	
     private void sendName() {
         if( running ) {
             try {
@@ -161,6 +221,12 @@ public class JChatTCP extends Thread {
         }
     }
 
+	/**
+	*Recieves the TCP message from the server
+	*
+	@return String the message received
+	*/
+	
     private String recieveMessage() {
         String message = "";
 
@@ -181,6 +247,13 @@ public class JChatTCP extends Thread {
         return message;
     }
 
+	/**
+	*A setter for the GUI
+	@param form a JChatForm wished to be used as the GUI
+	*
+	@return none.
+	*/
+	
     public void setForm( JChatForm form ) {
         this.form = form;
     }
