@@ -2,7 +2,7 @@ package jserver;
 
 /**
  *
- * @author SAM
+ * @author J9060283
  */
 
 /**
