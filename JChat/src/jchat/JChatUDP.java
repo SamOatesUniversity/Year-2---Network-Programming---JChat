@@ -13,6 +13,11 @@ import java.net.*;
  *
  * @author j9060283
  */
+ 
+ /**
+*The UDP Thread
+*
+*/
 public class JChatUDP extends Thread {
 
     private int                 port;
@@ -27,6 +32,15 @@ public class JChatUDP extends Thread {
 
     private JChatUDPRecieve     recieve_loop;
 
+	/**
+	*The constructor for the UDP thread of the client 
+	@param socket The socket to be used for UDP connection
+	*
+	@param form The GUI of the client
+	*
+	@return none.
+	*/
+	
     public JChatUDP( DatagramSocket socket, JChatForm form ) {
         s = socket;
         running = true;
@@ -38,6 +52,12 @@ public class JChatUDP extends Thread {
         recieve_loop.start();
     }
 
+	/**
+	*Main run point of the thread, sends avatars position to the server
+	*
+	@return none.
+	*/
+	
     @Override
     public void run() {
 
@@ -47,6 +67,12 @@ public class JChatUDP extends Thread {
         }
     }
 
+	/**
+	*Sends the avatars position to the server in the format x,y
+	*
+	@return none.
+	*/
+	
     public void SendServerMessage() {
         try {
 

@@ -13,8 +13,13 @@ import java.util.List;
 
 /**
  *
- * @author Sam
+ * @author j9060283
  */
+ 
+ /**
+*The UDP Receive Loop Thread
+*
+*/
 public class JChatUDPRecieve extends Thread {
 
     private class JChatUDPClient
@@ -37,6 +42,15 @@ public class JChatUDPRecieve extends Thread {
 
     private ArrayList<JChatUDPClient>    client;
 
+	/**
+	*Constructor for the UDP receive thread
+	@param socket The socket to receive messages from
+	*
+	@param form The GUI of the client
+	*
+	@return none.
+	*/
+	
     public JChatUDPRecieve(DatagramSocket socket, JChatForm form)
     {
         this.s = socket;
@@ -45,6 +59,12 @@ public class JChatUDPRecieve extends Thread {
         client = new ArrayList<JChatUDPClient>();
     }
 
+	/**
+	*Main run point of the thread, receives server messages
+	*
+	@return none.
+	*/
+	
     @Override
     public void run()
     {
@@ -54,6 +74,14 @@ public class JChatUDPRecieve extends Thread {
         }
     }
 
+	/**
+	*Waits to receive messages from the server, if the message
+	*contains the word 'remove' remove the client avatar from the form
+	*else update the clients avatar position
+	*
+	@return none.
+	*/
+	
     private void RecieveServerMessage()
     {
         try {
