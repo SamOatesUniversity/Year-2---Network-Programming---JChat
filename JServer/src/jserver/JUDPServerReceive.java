@@ -14,6 +14,10 @@ import java.util.logging.Logger;
  *
  * @author Sam
  */
+
+/**
+ * The thread for receiving of UDP messages.
+ */
 public class JUDPServerReceive extends Thread {
 
     private boolean running;

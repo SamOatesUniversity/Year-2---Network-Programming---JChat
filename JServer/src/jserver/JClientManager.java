@@ -8,6 +8,11 @@ import java.util.logging.Logger;
  *
  * @author SAM
  */
+
+/**
+ * This stores and controls all the TCP clients.
+ * and handles sending messages to other clients.
+ */
 public class JClientManager extends Thread {
 
     private ArrayList<JClient>  client;

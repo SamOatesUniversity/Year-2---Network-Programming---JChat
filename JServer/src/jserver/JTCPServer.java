@@ -8,6 +8,10 @@ import java.net.*;
  *
  * @author SAM
  */
+
+/**
+ * The controller for the TCP connections
+ */
 public class JTCPServer {
 
     private int port;

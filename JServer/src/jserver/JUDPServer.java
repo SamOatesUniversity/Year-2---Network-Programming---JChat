@@ -16,6 +16,9 @@ import java.util.logging.Logger;
  * @author Sam
  */
 
+/**
+ * The controller for the UDP connections.
+ */
 public class JUDPServer extends Thread {
 
     private ArrayList<JUDPClient>       client;
