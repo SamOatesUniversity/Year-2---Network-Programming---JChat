@@ -4,6 +4,10 @@ package jserver;
  *
  * @author SAM
  */
+
+/**
+ * The main class for the server. Creates the UDP and TCP threads.
+ */
 public class JServer {
 
     private JTCPServer tcpServer;

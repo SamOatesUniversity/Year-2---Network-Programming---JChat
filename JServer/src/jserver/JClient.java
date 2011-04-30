@@ -9,6 +9,10 @@ import java.util.ArrayList;
  *
  * @author SAM
  */
+
+/**
+ * A storage place for TCP clients
+ */
 public class JClient extends Thread {
 
     private String name;
