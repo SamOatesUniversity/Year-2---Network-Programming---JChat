@@ -6,8 +6,7 @@
 package jserver;
 
 /**
- *
- * @author Sam
+ * A storage place for UDP client data.
  */
 public class JUDPClient {
     public String           ip;

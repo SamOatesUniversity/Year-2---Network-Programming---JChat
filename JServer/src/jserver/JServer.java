@@ -36,7 +36,7 @@ public class JServer {
      */
     public JServer( JServerForm form, int port )
     {
-        this.udpServer = new JUDPServer( port, form );
+        this.udpServer = new JUDPServer( port );
         udpServer.start();
         this.tcpServer = new JTCPServer( port, form );
         tcpServer.run();

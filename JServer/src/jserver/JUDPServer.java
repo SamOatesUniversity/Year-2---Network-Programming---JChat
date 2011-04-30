@@ -24,7 +24,15 @@ public class JUDPServer extends Thread {
     private boolean                     running;
     private JUDPServerReceive           udp_receive;
 
-    public JUDPServer( int port, JServerForm form ) {
+
+    /**
+     * Constructor for the UDP Thread. Creates a UDP receive thread.
+    @param  port  the port to create the UDP socket on.
+     *
+    @return      none.
+     *
+     */
+    public JUDPServer( int port ) {
         running = true;
         try {
             socket = new DatagramSocket(port);
@@ -41,6 +49,13 @@ public class JUDPServer extends Thread {
         System.out.println("## UDP SERVER STARTED ##");
     }
 
+    /**
+     * Main run loop of the UDP thread. Gets client messages
+     * from the receive loop and sends the messages to all
+     * other clients.
+    @return      none.
+     *
+     */
     @Override
     public void run() {
 
@@ -67,6 +82,15 @@ public class JUDPServer extends Thread {
         }
     }
 
+    /**
+     * Sends the latest message from a client, to all other
+     * connected clients. Also if a client has left, sends a
+     * disconnect message to the clients.
+    @param  int  the id of whom is sending the message.
+     *
+    @return      none.
+     *
+     */
     private void SendMessageToOthers( int sender ) {
         for( int i = 0; i < client.size(); i++ ) {
             if( client.get(i) != client.get(sender) ) {

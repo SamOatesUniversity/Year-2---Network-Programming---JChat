@@ -21,12 +21,26 @@ public class JUDPServerReceive extends Thread {
     private DatagramSocket socket;
     private DatagramPacket packet;
 
+    /**
+     * Constructor for the UDP receive loop. Also creates a list
+     * to store the connected clients in.
+    @param  socket  the socket to receive messages on.
+     *
+    @return      none.
+     *
+     */
     public JUDPServerReceive(DatagramSocket socket) {
         running = true;
         this.client = new ArrayList<JUDPClient>();
         this.socket = socket;
     }
 
+    /**
+     * Simply receive new messages whilst thread is running.
+     *
+    @return      none.
+     *
+     */
     @Override
     public void run() {
 
@@ -36,18 +50,48 @@ public class JUDPServerReceive extends Thread {
 
     }
 
+    /**
+     * Returns how many clients are currently connected on UDP
+     *
+    @return int The amount of clients connected.
+     *
+     */
     public int clientCount() {
         return client.size();
     }
 
+    /**
+     * Returns a client at a given id.
+    @param  id  the id of the client to return.
+     *
+    @return JUDPClient the client at the given id.
+     *
+     */
     public JUDPClient getClient(int id) {
         return client.get(id);
     }
 
+    /**
+     * Removes a client from the client list at a given id.
+    @param  id  the id of the client to remove.
+     *
+    @return none
+     *
+     */
     public void removeClient( int id ) {
         client.remove(id);
     }
 
+    /**
+     * Receives messages on the UDP socket.
+     * Works out if the ip and port have sent a
+     * message before, if the ip and port have
+     * been used, store the message in the clients
+     * id. else add a new client to the client list.
+     *
+    @return none.
+     *
+     */
     public void recieveMessage() {
 
         boolean has_new_message = true;
