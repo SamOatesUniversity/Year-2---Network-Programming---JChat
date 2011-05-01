@@ -9,8 +9,6 @@ import javax.swing.ListModel;
  *
  * @author j9060283
  */
- 
- 
 public class JServerForm extends javax.swing.JFrame {
 
     public JServerForm() {
@@ -25,23 +23,23 @@ public class JServerForm extends javax.swing.JFrame {
         ListModel model = jList_Current_Users.getModel();
 
         DefaultListModel newmodel = new DefaultListModel();
-        for( int i = 0; i < model.getSize(); i++ ) {
+        for (int i = 0; i < model.getSize(); i++) {
             newmodel.add(i, model.getElementAt(i));
         }
         newmodel.add(model.getSize(), clientName);
 
         jList_Current_Users.setModel(newmodel);
 
-        serverMessage( clientName + " has joined the chat" );
+        serverMessage(clientName + " has joined the chat");
     }
 
-    public void removeClient( String clientName ) {
+    public void removeClient(String clientName) {
         ListModel model = jList_Current_Users.getModel();
 
         DefaultListModel newmodel = new DefaultListModel();
         int c = 0;
-        for( int i = 0; i < model.getSize(); i++ ) {
-            if( !model.getElementAt(i).toString().equals(clientName) ) {
+        for (int i = 0; i < model.getSize(); i++) {
+            if (!model.getElementAt(i).toString().equals(clientName)) {
                 newmodel.add(c, model.getElementAt(i));
                 c++;
             }
@@ -49,19 +47,19 @@ public class JServerForm extends javax.swing.JFrame {
 
         jList_Current_Users.setModel(newmodel);
 
-        serverMessage( clientName + " has left the chat" );
+        serverMessage(clientName + " has left the chat");
     }
 
-    public void addMessage( String user, String message ) {
-        jTextArea_MessageLog.append( user + " : " + message + "\n");
+    public void addMessage(String user, String message) {
+        jTextArea_MessageLog.append(user + " : " + message + "\n");
         jTextArea_MessageLog.scrollRectToVisible(
-                new Rectangle(0,jTextArea_MessageLog.getHeight(),1,1) );
+                new Rectangle(0, jTextArea_MessageLog.getHeight(), 1, 1));
     }
 
-    private void serverMessage( String message ) {
-        jTextArea_MessageLog.append( "## " + message + " ##\n");
+    private void serverMessage(String message) {
+        jTextArea_MessageLog.append("## " + message + " ##\n");
         jTextArea_MessageLog.scrollRectToVisible(
-                new Rectangle(0,jTextArea_MessageLog.getHeight(),1,1) );
+                new Rectangle(0, jTextArea_MessageLog.getHeight(), 1, 1));
     }
 
     @SuppressWarnings("unchecked")
@@ -172,33 +170,33 @@ public class JServerForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Action_WarnClient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Action_WarnClient
-        if( jList_Current_Users.getModel().getSize() > 0 ) {
+        if (jList_Current_Users.getModel().getSize() > 0) {
             int sel = jList_Current_Users.getSelectedIndex();
-            if( sel >= 0 ) {
+            if (sel >= 0) {
                 String name = jList_Current_Users.getModel().getElementAt(sel).toString();
-                serverMessage( name + " has recieved a warning!" );
+                serverMessage(name + " has recieved a warning!");
                 warned.add(name);
             }
         }
     }//GEN-LAST:event_Action_WarnClient
 
     private void Action_SlapClient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Action_SlapClient
-        if( jList_Current_Users.getModel().getSize() > 0 ) {
+        if (jList_Current_Users.getModel().getSize() > 0) {
             int sel = jList_Current_Users.getSelectedIndex();
-            if( sel >= 0 ) {
+            if (sel >= 0) {
                 String name = jList_Current_Users.getModel().getElementAt(sel).toString();
-                serverMessage( name + " has been slapped by a big wet fish" );
+                serverMessage(name + " has been slapped by a big wet fish");
                 slaped.add(name);
             }
         }
     }//GEN-LAST:event_Action_SlapClient
 
     private void Action_KickClient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Action_KickClient
-        if( jList_Current_Users.getModel().getSize() > 0 ) {
+        if (jList_Current_Users.getModel().getSize() > 0) {
             int sel = jList_Current_Users.getSelectedIndex();
-            if( sel >= 0 ) {
+            if (sel >= 0) {
                 String name = jList_Current_Users.getModel().getElementAt(sel).toString();
-                serverMessage( name + " has been kicked from the server" );
+                serverMessage(name + " has been kicked from the server");
                 kicked.add(name);
             }
         }
@@ -233,9 +231,7 @@ public class JServerForm extends javax.swing.JFrame {
         kicked.remove(0);
         return ret;
     }
-
-    private ArrayList<String>           warned, slaped, kicked;
-
+    private ArrayList<String> warned, slaped, kicked;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Kick;
     private javax.swing.JButton jButton_Slap;

@@ -14,7 +14,6 @@ import java.util.logging.Logger;
  *
  * @author J9060283
  */
-
 /**
  * The thread for receiving of UDP messages.
  */
@@ -82,7 +81,7 @@ public class JUDPServerReceive extends Thread {
     @return none
      *
      */
-    public void removeClient( int id ) {
+    public void removeClient(int id) {
         client.remove(id);
     }
 

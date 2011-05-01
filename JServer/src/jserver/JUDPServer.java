@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jserver;
 
 import java.io.IOException;
@@ -15,18 +14,16 @@ import java.util.logging.Logger;
  *
  * @author J9060283
  */
-
 /**
  * The controller for the UDP connections.
  */
 public class JUDPServer extends Thread {
 
-    private ArrayList<JUDPClient>       client;
-    private DatagramSocket              socket;
-    private DatagramPacket              packet;
-    private boolean                     running;
-    private JUDPServerReceive           udp_receive;
-
+    private ArrayList<JUDPClient> client;
+    private DatagramSocket socket;
+    private DatagramPacket packet;
+    private boolean running;
+    private JUDPServerReceive udp_receive;
 
     /**
      * Constructor for the UDP Thread. Creates a UDP receive thread.
@@ -35,7 +32,7 @@ public class JUDPServer extends Thread {
     @return      none.
      *
      */
-    public JUDPServer( int port ) {
+    public JUDPServer(int port) {
         running = true;
         try {
             socket = new DatagramSocket(port);
@@ -62,22 +59,19 @@ public class JUDPServer extends Thread {
     @Override
     public void run() {
 
-        while( running ) {
+        while (running) {
 
-            for( int i = 0; i < udp_receive.clientCount(); i++ )
-            {
+            for (int i = 0; i < udp_receive.clientCount(); i++) {
                 client.add(udp_receive.getClient(i));
             }
 
-            for( int i = 0; i < client.size(); i++ )
-            {
+            for (int i = 0; i < client.size(); i++) {
                 try {
-                    if( client.get(i).has_message ) {
-                        SendMessageToOthers( i );
+                    if (client.get(i).has_message) {
+                        SendMessageToOthers(i);
                         client.get(i).has_message = false;
                     }
-                } catch( NullPointerException ex ) {
-                    
+                } catch (NullPointerException ex) {
                 }
             }
 
@@ -94,9 +88,9 @@ public class JUDPServer extends Thread {
     @return      none.
      *
      */
-    private void SendMessageToOthers( int sender ) {
-        for( int i = 0; i < client.size(); i++ ) {
-            if( client.get(i) != client.get(sender) ) {
+    private void SendMessageToOthers(int sender) {
+        for (int i = 0; i < client.size(); i++) {
+            if (client.get(i) != client.get(sender)) {
 
                 try {
 
@@ -115,15 +109,13 @@ public class JUDPServer extends Thread {
                     }
 
                 } catch (NullPointerException ex) {
-                    
                 }
 
                 try {
-                    if( client.get(sender).latest_message.contains("remove")) {
+                    if (client.get(sender).latest_message.contains("remove")) {
                         this.udp_receive.removeClient(sender);
                     }
-                } catch( NullPointerException ex ) {
-                    
+                } catch (NullPointerException ex) {
                 }
 
             }

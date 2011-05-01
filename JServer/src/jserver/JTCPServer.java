@@ -3,12 +3,10 @@ package jserver;
 import java.io.IOException;
 import java.net.*;
 
-
 /**
  *
  * @author J9060283
  */
-
 /**
  * The controller for the TCP connections
  */
@@ -32,9 +30,9 @@ public class JTCPServer {
     public JTCPServer(int port, JServerForm form) {
         this.port = port;
         this.running = true;
-        this.manager = new JClientManager( form );
+        this.manager = new JClientManager(form);
     }
-    
+
     /**
      * Loops on a separate thread, waiting on new TCP client connections.
      * then adding the new clients to the client manager.
@@ -49,7 +47,7 @@ public class JTCPServer {
             while (running) {
                 JClient newClient = waitForClient();
                 newClient.start();
-                manager.addClient( newClient );
+                manager.addClient(newClient);
             }
 
         }

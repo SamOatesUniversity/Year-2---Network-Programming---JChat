@@ -8,7 +8,6 @@
  *
  * Created on 30-Mar-2011, 13:48:09
  */
-
 package jchat;
 
 import java.awt.Point;
@@ -22,7 +21,7 @@ import javax.swing.JTextField;
 public class JChatForm extends javax.swing.JFrame {
 
     /** Creates new form JChatForm */
-    public JChatForm( JChatTCP tcp ) {
+    public JChatForm(JChatTCP tcp) {
         initComponents();
         this.tcp = tcp;
     }
@@ -239,15 +238,15 @@ public class JChatForm extends javax.swing.JFrame {
 
     private void Action_Connect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Action_Connect
         name = jTextField_UserName.getText();
-        if( !name.isEmpty() ) {
+        if (!name.isEmpty()) {
             System.out.println("your name is : " + name);
 
-            String ip = jTextField_IP1.getText() + "." +
-                    jTextField_IP2.getText() + "." +
-                    jTextField_IP3.getText() + "." +
-                    jTextField_IP4.getText();
+            String ip = jTextField_IP1.getText() + "."
+                    + jTextField_IP2.getText() + "."
+                    + jTextField_IP3.getText() + "."
+                    + jTextField_IP4.getText();
 
-            int port = Integer.parseInt( jTextField_IP5.getText().trim() );
+            int port = Integer.parseInt(jTextField_IP5.getText().trim());
 
             jButton_Connect.setEnabled(false);
             jTextField_IP1.setEnabled(false);
@@ -257,15 +256,15 @@ public class JChatForm extends javax.swing.JFrame {
             jTextField_IP5.setEnabled(false);
             jTextField_UserName.setEditable(false);
 
-            tcp.connect( name, ip, port );
-            
+            tcp.connect(name, ip, port);
+
         }
     }//GEN-LAST:event_Action_Connect
 
     private void Action_Send(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Action_Send
         String message = jTextArea_Input.getText();
-        if( !message.isEmpty() ) {
-            tcp.sendMessage( message );
+        if (!message.isEmpty()) {
+            tcp.sendMessage(message);
             jTextArea_Input.setText("");
             jTextArea_Output.append(name + " : " + message + "\n");
         }
@@ -273,69 +272,68 @@ public class JChatForm extends javax.swing.JFrame {
 
     private void Action_GainFocus(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Action_GainFocus
         javax.swing.JTextField fld = (JTextField) evt.getSource();
-        fld.setText("");       
+        fld.setText("");
     }//GEN-LAST:event_Action_GainFocus
 
     private void jTextArea_InputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea_InputKeyReleased
-       if( evt.getKeyCode() == evt.VK_ENTER ) {
+        if (evt.getKeyCode() == evt.VK_ENTER) {
             String message = jTextArea_Input.getText().trim();
-            if( !message.isEmpty() ) {
-                tcp.sendMessage( message );
+            if (!message.isEmpty()) {
+                tcp.sendMessage(message);
                 jTextArea_Input.setText("");
                 addMessage(name + " : " + message);
             }
-       }
+        }
     }//GEN-LAST:event_jTextArea_InputKeyReleased
 
     private void jPanel_DrawableMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_DrawableMouseDragged
-        Point pos = new Point( evt.getPoint().x - 10, evt.getPoint().y - 10 );
-        if( pos.x > 0 && pos.y > 0 && pos.x < ((JDrawablePanel)jPanel_Drawable).getWidth() - 20
-                && pos.y < ((JDrawablePanel)jPanel_Drawable).getHeight() - 20 ) {
-            Point current_pos = ((JDrawablePanel)jPanel_Drawable).getPos( 0 );
-            if( pos.x > current_pos.x - 20 && pos.y > current_pos.y - 20 &&
-                    pos.x < current_pos.x + 40 && pos.y < current_pos.y + 40 ) {
-                updateAvatar( 0, pos );
+        Point pos = new Point(evt.getPoint().x - 10, evt.getPoint().y - 10);
+        if (pos.x > 0 && pos.y > 0 && pos.x < ((JDrawablePanel) jPanel_Drawable).getWidth() - 20
+                && pos.y < ((JDrawablePanel) jPanel_Drawable).getHeight() - 20) {
+            Point current_pos = ((JDrawablePanel) jPanel_Drawable).getPos(0);
+            if (pos.x > current_pos.x - 20 && pos.y > current_pos.y - 20
+                    && pos.x < current_pos.x + 40 && pos.y < current_pos.y + 40) {
+                updateAvatar(0, pos);
             }
         }
     }//GEN-LAST:event_jPanel_DrawableMouseDragged
 
-    public void addMessage( String message ) {
+    public void addMessage(String message) {
 
         jTextArea_Output.append(message + "\n");
 
         jTextArea_Output.scrollRectToVisible(
-                new Rectangle(0,jTextArea_Output.getHeight(),1,1) );
+                new Rectangle(0, jTextArea_Output.getHeight(), 1, 1));
 
     }
 
-    public void enableChat( boolean enabled ) {
+    public void enableChat(boolean enabled) {
         jButton_Send.setEnabled(enabled);
     }
 
-    public int addAvatar( Point pos ) {
-        return ((JDrawablePanel)jPanel_Drawable).addAvatar(pos);
+    public int addAvatar(Point pos) {
+        return ((JDrawablePanel) jPanel_Drawable).addAvatar(pos);
     }
 
-    public void updateAvatar( int id, Point pos ) {
-        ((JDrawablePanel)jPanel_Drawable).updateAvatar(id, pos);
+    public void updateAvatar(int id, Point pos) {
+        ((JDrawablePanel) jPanel_Drawable).updateAvatar(id, pos);
     }
 
-    public void removeAvatar( int id ) {
-        ((JDrawablePanel)jPanel_Drawable).removeAvatar( id );
-    }
-    
-    public Point getAvatar( int id ) {
-        return ((JDrawablePanel)jPanel_Drawable).getPos( id );
+    public void removeAvatar(int id) {
+        ((JDrawablePanel) jPanel_Drawable).removeAvatar(id);
     }
 
-    public void errorMessage( String message, boolean enableConnect ) {
-        jTextArea_Output.append( message + "\n");
+    public Point getAvatar(int id) {
+        return ((JDrawablePanel) jPanel_Drawable).getPos(id);
+    }
+
+    public void errorMessage(String message, boolean enableConnect) {
+        jTextArea_Output.append(message + "\n");
         jButton_Connect.setEnabled(enableConnect);
     }
-
-    private JChatTCP        tcp;
-    private String          name;
-    private int             self_avatar;
+    private JChatTCP tcp;
+    private String name;
+    private int self_avatar;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Connect;
     private javax.swing.JButton jButton_Send;
@@ -357,5 +355,4 @@ public class JChatForm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_IP5;
     private javax.swing.JTextField jTextField_UserName;
     // End of variables declaration//GEN-END:variables
-
 }
