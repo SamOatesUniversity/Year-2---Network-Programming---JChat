@@ -4,7 +4,6 @@ package jserver;
  *
  * @author J9060283
  */
-
 /**
  * The main class for the server. Creates the UDP and TCP threads.
  */
@@ -23,10 +22,18 @@ public class JServer {
      */
     public static void main(String[] args) {
 
+        int port = 5598;
+
+        if (args.length > 0) {
+            port = Integer.parseInt(args[0]);
+        }
+
+        System.out.println("Starting server on port : " + port);
+
         JServerForm mainForm = new JServerForm();
         mainForm.setVisible(true);
 
-        JServer server = new JServer( mainForm, 5598 );
+        JServer server = new JServer(mainForm, port);
     }
 
     /**
@@ -38,12 +45,10 @@ public class JServer {
     @return      none.
      *
      */
-    public JServer( JServerForm form, int port )
-    {
-        this.udpServer = new JUDPServer( port );
+    public JServer(JServerForm form, int port) {
+        this.udpServer = new JUDPServer(port);
         udpServer.start();
-        this.tcpServer = new JTCPServer( port, form );
+        this.tcpServer = new JTCPServer(port, form);
         tcpServer.run();
     }
-
 }

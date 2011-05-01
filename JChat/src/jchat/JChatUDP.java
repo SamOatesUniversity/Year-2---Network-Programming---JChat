@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jchat;
 
 import java.awt.Point;
@@ -13,77 +12,71 @@ import java.net.*;
  *
  * @author j9060283
  */
- 
- /**
-*The UDP Thread
-*
-*/
+/**
+ *The UDP Thread
+ *
+ */
 public class JChatUDP extends Thread {
 
-    private int                 port;
-    private InetAddress         ip;
-    private DatagramSocket      s;
-    private DatagramPacket      p;
-    private static int          BUFFER_MAX = 100;
-    private boolean             running;
-    private Point               avatar;
-    private int                 avatarid;
-    private JChatForm           form;
+    private int port;
+    private InetAddress ip;
+    private DatagramSocket s;
+    private DatagramPacket p;
+    private static int BUFFER_MAX = 100;
+    private boolean running;
+    private Point avatar;
+    private int avatarid;
+    private JChatForm form;
+    private JChatUDPRecieve recieve_loop;
 
-    private JChatUDPRecieve     recieve_loop;
-
-	/**
-	*The constructor for the UDP thread of the client 
-	@param socket The socket to be used for UDP connection
-	*
-	@param form The GUI of the client
-	*
-	@return none.
-	*/
-	
-    public JChatUDP( DatagramSocket socket, JChatForm form ) {
+    /**
+     *The constructor for the UDP thread of the client
+    @param socket The socket to be used for UDP connection
+     *
+    @param form The GUI of the client
+     *
+    @return none.
+     */
+    public JChatUDP(DatagramSocket socket, JChatForm form) {
         s = socket;
         running = true;
         this.form = form;
-        avatar = new Point( 0, 0 );
+        avatar = new Point(0, 0);
         avatarid = form.addAvatar(avatar);
 
         recieve_loop = new JChatUDPRecieve(s, form);
         recieve_loop.start();
     }
 
-	/**
-	*Main run point of the thread, sends avatars position to the server
-	*
-	@return none.
-	*/
-	
+    /**
+     *Main run point of the thread, sends avatars position to the server
+     *
+    @return none.
+     */
     @Override
     public void run() {
 
-        while( running ) {
-            avatar = form.getAvatar( avatarid );
+        while (running) {
+            avatar = form.getAvatar(avatarid);
             SendServerMessage();
         }
     }
 
-	/**
-	*Removes and a client from the udp list
-        * @param id the id to remove
-	*
-	@return none.
-	*/
-
-    public void removeClient( int id ) {
+    /**
+     *Removes and a client from the udp list
+     * @param id the id to remove
+     *
+    @return none.
+     */
+    public void removeClient(int id) {
         recieve_loop.removeClient(id);
     }
 
-	/**
-	*Sends the avatars position to the server in the format x,y
-	*
-	@return none.
-	*/
-	
+    /**
+     *Sends the avatars position to the server in the format x,y
+     *
+    @return none.
+     */
     public void SendServerMessage() {
         try {
 
@@ -104,5 +97,4 @@ public class JChatUDP extends Thread {
             e.printStackTrace();
         }
     }
-
 }
